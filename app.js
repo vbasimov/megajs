@@ -9,6 +9,7 @@ var FileStore = require('session-file-store')(session);
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const favicon = require('express-favicon');
 
 const users = [ {
     id: 'fg0vpazo',
@@ -26,21 +27,23 @@ passport.use(new LocalStrategy(
     // for now, we'll just pretend we found that it was users[0]
     const user = users[0] 
     if(email === user.email && password === user.password) {
-      console.log('Local strategy returned true')
-      return done(null, user)
+      console.log('Local strategy returned true');
+      return done(null, user);
     }
   }
 ));
 
 // serialize the user by passport
 passport.serializeUser((user, done) => {
-  console.log('Inside serializer callback. User id is save to the session file store here')
+  console.log('Inside serializer callback. User id is save to the session file store here');
   done(null, user.id);
 });
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
+var logoutRouter = require('./routes/logout');
+var debtorsRouter = require('./routes/debtors');
 
 var app = express();
 
@@ -48,8 +51,10 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.static(__dirname + '/public'));
+app.use(favicon(__dirname + '/public/images/favicon.png'));
 
 ////////
 //TODO// replace session secret to ENV
@@ -79,6 +84,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/logout', logoutRouter);
+app.use('/debtors', debtorsRouter)
+
+/*
+if(req.isAuthenticated()) {
+    res.send('you hit the authentication endpoint\n')
+  } else {
+    res.redirect('/')
+  }
+*/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

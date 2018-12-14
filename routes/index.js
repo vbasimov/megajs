@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   console.log('Inside the homepage callback function')
   console.log(req.sessionID)
-  res.render('index', { title: 'debtors' });
+  res.render('index', { title: 'Реестр задолженностей' });
 });
 
 module.exports = router;

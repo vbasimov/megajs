@@ -1,5 +1,47 @@
 extends layout
 
 block content
-  h1="Debt control service"
-  p Welcome to #{title}
+  main(role="main")
+    #myCarousel.carousel.slide(data-ride="carousel")
+    //- ol.carousel-indicators
+      li.active(data-target="#myCarousel" data-slide-to="0")
+      li(data-target="#myCarousel" data-slide-to="1")
+      li(data-target="#myCarousel" data-slide-to="2")
+    .carousel-inner
+      .carousel-item.active
+        img.first-slide(src="/images/162204.jpg" alt="First slide")
+        .container
+          .carousel-caption.text-left
+            h1 Реестр задолженностей
+            p
+              | Данный сервис предоставляет Вам возможность просмотреть задолженности<br>
+              | по услугам, неоплаченным в Системе компании
+            p
+              a.btn.btn-lg.btn-primary(href="/debtors" role="button") Попробовать сейчас
+    a.carousel-control-prev(href="#myCarousel" role="button" data-slide="prev")
+      span.carousel-control-prev-icon(aria-hidden="true")
+      span.sr-only пред.
+    a.carousel-control-next(href="#myCarousel" role="button" data-slide="next")
+      span.carousel-control-next-icon(aria-hidden="true")
+      span.sr-only след.
+
+    .container
+      p
+        hr
+      .row
+        .col-md-4
+          h2 Доступность
+          p
+            | Разработанное, как для отдельных, так и для корпоративных пользователей.
+          p
+        .col-md-4
+          h2 Универсальность
+          p
+            | Подходит для разнообразных видов финансовой деятельности, включая коммерческую деятельность и любые другие случаи, когда необходимо отслеживание и управление денежными ресурсами.
+          p
+        .col-md-4
+          h2 Многофункциональность
+          p
+            | Данный сервис предоставляет Вам возможность просмотреть задолженность по услугам, неоплаченных в Системе компании.
+          p
+      hr

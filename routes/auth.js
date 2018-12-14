@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   console.log('Inside GET /auth callback function');
   console.log(req.sessionID);
-  res.render('auth', { title: 'Authorization'});
+  res.render('auth', { title: 'Авторизация'});
 });
 
 router.post('/', function(req, res, next) {
