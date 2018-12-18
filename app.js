@@ -1,15 +1,23 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var uuid = require('uuid/v4');
-var session = require('express-session')
-var FileStore = require('session-file-store')(session);
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const uuid = require('uuid/v4');
+const session = require('express-session')
+const FileStore = require('session-file-store')(session);
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const favicon = require('express-favicon');
+const mongoose = require('mongoose');
+
+let dev_db_url = 'mongodb://megajs:fg0vpazo@ds055722.mlab.com:55722/debt';
+let mongoDB = process.env.MONGODB_URI || dev_db_url;
+mongoose.connect(mongoDB, { useNewUrlParser: true });
+mongoose.Promise = global.Promise;
+let db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const users = [ {
     id: 'fg0vpazo',
@@ -43,7 +51,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
 var logoutRouter = require('./routes/logout');
-var debtorsRouter = require('./routes/debtors');
+// var debtorsRouter = require('./routes/debtors');
+var debtRouter = require('./routes/debt');
 
 var app = express();
 
@@ -85,7 +94,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/logout', logoutRouter);
-app.use('/debtors', debtorsRouter)
+app.use('/debt', debtRouter)
 
 /*
 if(req.isAuthenticated()) {
