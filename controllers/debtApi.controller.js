@@ -1,8 +1,22 @@
 var Debt = require('../models/debt.model');
+// const async = require('async');
+const { wrap: async } = require('co');
 
-exports.test = function(req, res) {
-    res.render('debtlist', { title: 'Реестр задолженностей' });
-}
+exports.allDebts = function(req, res) {
+    // MyModel.find(query, fields, { skip: 10, limit: 5 }, function(err, results) { ... });
+    //res.render('debtlist', { title: 'Реестр задолженностей',});
+
+    Debt.find({}, function(err, debts) {
+        if(err) {
+            res.send('something wrong');
+            next();
+        }
+        //res.send(debts)
+        //  res.json(debts);
+        //console.log(typeof(debts));
+        res.render('debtlist', {debts: debts})
+    });
+};
 
 exports.debtCreate = function (req, res) {
     let debt = new Debt(

@@ -61,5 +61,29 @@ hr {
   -o-background-size: cover;
   background-size: cover;
   background-size: cover;
+  background-repeat: no-repeat;
+}
 
+.glyph-icon svg {
+  width:16px;
+  height:16px;
+}
+
+.debts-table {
+    width:80%
+}
+
+.custom-but {
+  outline: 0 !important;
+  border: none;
+  cursor: pointer; 
+  text-align: center;
+}
+
+.upd-but {
+  background: url("/images/si-glyph-edit.svg") no-repeat;
+}
+
+.del-but {
+  background: url("/images/si-glyph-delete.svg") no-repeat;
 }
