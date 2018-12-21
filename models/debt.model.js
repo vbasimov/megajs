@@ -2,19 +2,20 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 let debtSchema = new Schema({
-    name: {
+    Имя: {
         type: String,
         required: true,
         max:100
     },
-    size: {
+    Фамилия: {
+        type: String,
+        required: true,
+        max:100
+    },
+    Задолженность: {
         type: Number,
         required: true
     },
-    date: {
-        type: Date,
-        required: true
-    }
 })
 
 module.exports = mongoose.model('Debt', debtSchema)
