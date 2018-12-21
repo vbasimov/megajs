@@ -3,16 +3,19 @@ html
   head
     title= title
     meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
-    //- link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
-    //- link(rel='stylesheet', href='/stylesheets/bootstrap-responsive.min.css')
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.1/jsgrid.min.css', rel='stylesheet')
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.1/jsgrid-theme.min.css', rel='stylesheet')
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.min.css')
+    
     script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js' integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo' crossorigin='anonymous')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js' integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49' crossorigin='anonymous')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.min.css')
     script(src='/javascripts/bootstrap.min.js')
+    script(src='https://code.jquery.com/jquery-2.2.4.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.1/jsgrid.min.js')
+    script(src='javascripts/debt-grid.js')
     
-
     body.backgrounded
       nav.navbar.navbar-expand-md.navbar-dark.fixed-top.bg-dark
         a.navbar-brand(href="/") Реестр задолженностей               

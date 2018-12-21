@@ -12,6 +12,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const favicon = require('express-favicon');
 const mongoose = require('mongoose');
 
+
 let db_url = 'mongodb://megajs:fg0vpazo@ds055722.mlab.com:55722/debt';
 let mongoDB = process.env.MONGODB_URI || db_url;
 mongoose.connect(mongoDB, { useNewUrlParser: true });
@@ -51,8 +52,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
 var logoutRouter = require('./routes/logout');
-var debtApiRouter = require('./routes/debtApi');
-// var debtRouter = require('./routes/debts');
+var debtsRouter = require('./routes/debts');
 
 var app = express();
 
@@ -94,8 +94,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/logout', logoutRouter);
-app.use('/debtapi', debtApiRouter)
-// app.use('/debts', debtRouter)
+app.use('/debts', debtsRouter)
 
 /*
 if(req.isAuthenticated()) {
