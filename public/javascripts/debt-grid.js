@@ -2,19 +2,22 @@ $(function() {
     $('#jsGrid').jsGrid({
         height: 'auto',
         width: '100%',
+
         filtering: true,
         inserting: true,
         editing: true,
         sorting: true,
         paging: true,
         autoload: true,
+
         pageSize: 10,
         pageButtonCount: 3,
         deleteConfirm: 'Вы действительно хотите удалить запись?',
+        
         controller: {
             loadData: function(filter) {
                 return $.ajax({
-                    type: 'POST',
+                    type: 'GET',
                     url: '/debts/api',
                     data: filter,
                 });
