@@ -50,7 +50,6 @@ hr {
   -moz-border-top-colors: none;
   border-color: #EEEEEE -moz-use-text-color #FFFFFF;
   border-style: solid none;
-  /* border-width: 1px 0; */
   margin-top: 35px;
 }
 
@@ -108,5 +107,26 @@ hr {
 
 .err-num {
   font-size: 85px;
-  color: #17a2b8;
+  color: #007BFF;
+}
+
+.icon-contact {
+  width: 2%;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: 100px;
+}
+.card-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.jsgrid-nodata-row {
+  text-align:center;
 }

@@ -60,7 +60,12 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   // render the error page
   res.status(err.status || 500);
-  res.render('error', {errStat: err.status, errMsg: err.message});
+  var errMsg = err.message;
+  if (err.status == 500)
+    err.status = 'Внутрення ошибка сервера';
+    if (err.status == 404)
+    errMsg = 'Страница не найдена';
+  res.render('error', {errStat: err.status, errMsg: errMsg});
 });
 
 module.exports = app;
