@@ -24,10 +24,10 @@ html
         #navbarsExampleDefault.collapse.navbar-collapse
           ul.navbar-nav.mr-auto
           form.form-inline.my-2.my-lg-0
-            //- input.form-control.mr-sm-2(type="text" placeholder="Search" aria-label="Search")
-            <a class="btn btn-outline-success" href="/auth" role="button">Войти в реестр</a>&nbsp&nbsp
-            <a class="btn btn-outline-danger" href="/logout" role="button">Выйти</a>
-            //- button.btn.btn-outline-success.my-2.my-sm-0(type="button") Войти
+            if (user)
+              <a class="btn btn-outline-danger" href="/logout" role="button">Выйти</a>
+            else
+              <a class="btn btn-outline-primary" href="/register" role="button">Зарегистрироваться</a>&nbsp&nbsp
+              <a class="btn btn-outline-primary" href="/login" role="button">Войти</a>
       main(role="main")
         block content
-      

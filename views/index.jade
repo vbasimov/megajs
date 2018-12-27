@@ -1,12 +1,8 @@
 extends layout
 
 block content
-  main(role="main")
+  main(role="main").text-center
     #myCarousel.carousel.slide(data-ride="carousel")
-    //- ol.carousel-indicators
-      li.active(data-target="#myCarousel" data-slide-to="0")
-      li(data-target="#myCarousel" data-slide-to="1")
-      li(data-target="#myCarousel" data-slide-to="2")
     .carousel-inner
       .carousel-item.active
         img.first-slide(src="/images/162204.jpg" alt="First slide")
@@ -18,13 +14,6 @@ block content
               | по услугам, неоплаченным в Системе компании
             p
               a.btn.btn-lg.btn-primary(href="/debts" role="button") Попробовать сейчас
-    //- a.carousel-control-prev(href="#myCarousel" role="button" data-slide="prev")
-    //-   span.carousel-control-prev-icon(aria-hidden="true")
-    //-   span.sr-only пред.
-    //- a.carousel-control-next(href="#myCarousel" role="button" data-slide="next")
-    //-   span.carousel-control-next-icon(aria-hidden="true")
-    //-   span.sr-only след.
-
     .container
       p
         hr
@@ -45,3 +34,5 @@ block content
             | Данный сервис предоставляет Вам возможность просмотреть задолженность по услугам, неоплаченных в Системе компании.
           p
       hr
+    p 
+      <a href="https://bitbucket.org/vabsoluter/megajs" class="badge badge-primary">исходный код</a>

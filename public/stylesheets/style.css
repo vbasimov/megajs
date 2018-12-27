@@ -87,3 +87,26 @@ hr {
 .del-but {
   background: url("/images/si-glyph-delete.svg") no-repeat;
 }
+
+.carousel-caption {
+  left: unset;
+  right: unset;
+}
+
+#sad-smile{
+  text-align: center;
+  margin-top: 7%;
+  margin-bottom: 3%;
+  width: 10%;
+}
+
+.error-text {
+  color: #777777;
+  margin: -20px 0px;
+  text-align: center !important;
+}
+
+.err-num {
+  font-size: 85px;
+  color: #17a2b8;
+}

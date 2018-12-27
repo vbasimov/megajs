@@ -11,15 +11,22 @@ var getFilter = function(query) {
 exports.allDebts = function(req, res, next) {
     Debt.find(getFilter(req.query), function(err, debts) {
         if(err) {
-            res.send('something wrong');
+            res.send('Что-то пошло не так ' + err);
             next();
         }    
+        res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.header('Pragma', 'no-cache');
+        res.header('Expires', 0);
         res.json(debts);
     });
 };
 
 exports.grid = function(req, res, next) {
-    res.render('debt-grid', {title: 'Реестр задолженностей'})
+    req.session.returnTo = 'debts';
+    if(req.isAuthenticated()){ 
+        res.render('debt-grid', {title: 'Реестр задолженностей', user: req.user});
+    }
+    res.redirect('login');
 };
 
 exports.debtCreate = function (req, res) {

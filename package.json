@@ -2,16 +2,13 @@
   "name": "megajs",
   "version": "0.0.1",
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "NODE_ENV=production node ./bin/www",
     "dev": "nodemon --ignore ./sessions ./bin/www"
   },
   "author": "vabsoluter",
   "dependencies": {
-    "async": "^2.6.1",
     "body-parser": "^1.18.3",
-    "co": "^4.6.0",
     "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
     "express": "~4.16.0",
     "express-favicon": "^2.0.1",
     "express-session": "^1.15.6",
@@ -19,11 +16,9 @@
     "jade": "~1.11.0",
     "jsgrid": "^1.5.3",
     "mongoose": "^5.3.16",
-    "morgan": "~1.9.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "session-file-store": "^1.2.0",
-    "uuid": "^3.3.2"
+    "passport-local-mongoose": "^5.0.1"
   },
   "devDependencies": {
     "nodemon": "^1.18.8"

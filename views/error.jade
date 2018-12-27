@@ -1,6 +1,9 @@
 extends layout
 
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+  p
+    .image-block.text-center
+      img#sad-smile(src='/images/sad.png')
+    h1.error-text.err-num= errStat
+    h2.error-text= errMsg
+  pre.text-center #{error.stack}
