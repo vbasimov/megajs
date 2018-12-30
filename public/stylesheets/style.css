@@ -114,6 +114,10 @@ hr {
   width: 2%;
 }
 
+.icon-alert-close {
+  width: 15%;
+  cursor: pointer;
+}
 html {
   position: relative;
   min-height: 100%;
@@ -129,4 +133,29 @@ body {
 
 .jsgrid-nodata-row {
   text-align:center;
+}
+
+#jsGrid {
+  margin-bottom: 125px;
+}
+
+.bd-callout {
+  
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid #eee;
+  border-left-width: .25rem;
+  border-radius: .25rem;
+}
+
+.bd-callout-primary {
+  border-left-color: #007bff;
+}
+
+.custom-row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
 }

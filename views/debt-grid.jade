@@ -4,6 +4,35 @@ block content
   br
   br
   br
-  br
+  .container
+    if errMessage 
+      #alert-err.alert.alert-danger.custom-row(role="alert")
+        .col-10
+          | #{ errMessage }
+        .col-2.text-right
+          a(onclick='hideErrMessage()')
+            img.icon-alert-close(src="/images/si-glyph-button-error.svg")
+    if okMessage
+      #alert-ok.alert.alert-success.custom-row(role="alert")
+        .col-10
+          | #{ okMessage }
+        .col-2.text-right
+          a(onclick='hideSuccessMessage()')
+            img.icon-alert-close(src="/images/si-glyph-button-error.svg")
+    .bd-callout.bd-callout-primary.custom-row
+      h6.col-6
+        | Для удобного добавления записей попробуйте загрузку из файла. 
+        a(href='/template') Скачайте 
+        | пример файла для импорта
+      form.col-6(action='debts', method='POST', enctype='multipart/form-data')
+          form-group
+          input.file.invisible.position-absolute(type='file', name='file')
+          .input-group  
+            input.form-control.input-sm(type='text', disabled='', placeholder='Загрузить файл с расширением .csv')
+            |       
+            span.input-group-btn
+              button.browse.btn.btn-primary.input-sm(type='button')
+                i.glyphicon.glyphicon-search
+                |  Открыть
   .container
     div#jsGrid
