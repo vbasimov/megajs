@@ -2,7 +2,7 @@
   "name": "megajs",
   "version": "0.0.1",
   "scripts": {
-    "start": "NODE_ENV=production node ./bin/www",
+    "start": "NODE_ENV=production pm2 start ./bin/www",
     "dev": "nodemon --ignore ./sessions ./bin/www"
   },
   "author": "vabsoluter",
