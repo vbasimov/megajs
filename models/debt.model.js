@@ -15,7 +15,7 @@ let debtSchema = new Schema({
     Задолженность: {
         type: Number,
         required: true
-    },
+    }
 })
 
 module.exports = mongoose.model('Debt', debtSchema)

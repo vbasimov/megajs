@@ -5,17 +5,17 @@ block content
   br
   br
   .container
-    if errMessage 
-      #alert-err.alert.alert-danger.custom-row(role="alert")
+    if messageStatus == 'bad' 
+      #alert-err.alert.alert-danger.align-items-center.custom-row(role="alert")
         .col-10
-          | #{ errMessage }
+          | #{ message }
         .col-2.text-right
           a(onclick='hideErrMessage()')
             img.icon-alert-close(src="/images/si-glyph-button-error.svg")
-    if okMessage
-      #alert-ok.alert.alert-success.custom-row(role="alert")
+    if messageStatus == 'good'
+      #alert-ok.alert.alert-success.align-items-center.custom-row(role="alert")
         .col-10
-          | #{ okMessage }
+          | #{ message }
         .col-2.text-right
           a(onclick='hideSuccessMessage()')
             img.icon-alert-close(src="/images/si-glyph-button-error.svg")
