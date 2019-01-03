@@ -1,8 +1,9 @@
 var Debt = require('../models/debt.model');
-var csv = require('fast-csv');
 var mongoose = require('mongoose');
 var multer = require('multer');
 var fs = require('fs');
+var xlstojson = require("xls-to-json-lc");
+var xlsxtojson = require("xlsx-to-json-lc");
 var numeralize = require('numeralize-ru');
 
 var debtController = {};
@@ -37,7 +38,7 @@ debtController.allDebts = function(req, res, next) {
 debtController.grid = function(req, res, next) {
 
     req.session.returnTo = 'debts';
-    if(req.isAuthenticated()){ 
+    if(req.isAuthenticated()) { 
         res.render('debt-grid', {title: 'Реестр задолженностей', user: req.user});
      }
     res.redirect('login');
@@ -46,16 +47,16 @@ debtController.grid = function(req, res, next) {
 
 debtController.debtCreate = function(req, res) {
 
-    let debt = new Debt(
+    var debt = new Debt(
         {
-            Имя: req.body.Имя,
-            Фамилия: req.body.Фамилия,
-            Задолженность: req.body.Задолженность
+            имя: req.body.имя,
+            фамилия: req.body.фамилия,
+            задолженность: req.ody.задолженность
         }
     );
 
     debt.save(function (err) {
-        if (err) return err;
+        if (err) res.json(err.errors);
         res.json(debt)
     })
 
@@ -81,100 +82,108 @@ debtController.debtDelete = function(req, res) {
 
 debtController.bulkUpload = function(req, res) {
 
-    var storage = multer.diskStorage({
-       
-        destination: function (req, file, cb) {
-            cb(null, './uploads/')
-        },
-        filename: function (req, file, cb) {
-            var datetimestamp = Date.now();
-            cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
-        }
-
-    });
-    
-    var upload = multer({storage: storage}).single('file');
-    upload(req, res, function(err){
-        var readableStreamInput = fs.createReadStream(req.file.path);
-        if(!req.file){
-            err = 'Ошибка! Файл не был выбран';
-        }
-
-        if (!req.file.originalname.match(/\.csv$/)) {
-            err = 'Ошибка! Вы выбрали файл с неверным расширением. Выберите файл с расширением ".csv"';
-        }
-
-        if(err){
-
-            fs.unlinkSync(readableStreamInput.path);
-            res.render('debt-grid', {
-                title: 'Реестр задолженностей',
-                user: req.user,
-                message: err,
-                messageStatus: 'bad'
-            });
-            return;
-
-        }
-
-        var debts = [];
-
-        csv
-        .fromStream(readableStreamInput, {headers: true, ignoreEmpty: true})
-        .on("data", function(data){
-            var rowData = {};
-
-            Object.keys(data).forEach(current_key => {
-                rowData[current_key] = data[current_key]
-            });
-            data['_id'] = new mongoose.Types.ObjectId();  
-            debts.push(rowData);
-
+    var upload = multer({
+        storage: multer.diskStorage({
+            destination: function (req, file, cb) { cb(null, './uploads/') },
+            filename: function (req, file, cb) {
+                var datetimestamp = Date.now();
+                cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
+            }
         })
-        
-        .on("end", function(){
+    }).single('file');
+    
+    upload(req, res, function(err) {
 
-            var message = ' ';
-            fs.unlinkSync(readableStreamInput.path);
-            var errorCount = 0;
-                
-            Debt.create(debts, function(err, documents, next) {
-                
-                if (err) {
-                    errorCount = Object.keys(err.errors).length;
-                };    
+        var message = {};
 
-                if (debts.length > 0 && errorCount == 0) {
-                    message = 'Вы успешно добавили '
-                        + debts.length 
-                        + ' '
-                        +  numeralize.pluralize(debts.length, 'запись', 'записей', 'записей');
-                    messageStatus = 'good'
-                } else {
-                    var total = debts.length - errorCount;
-                    message = 'Произошла ошибка чтения файла. Не все записи были добавлены. '
-                        + 'Вы успешно добавили '
-                        + total
-                        + ' '
-                        +  numeralize.pluralize(total, 'запись', 'записей', 'записей')
-                        + ' из ' + debts.length + '. Проверьте правильность заполнения согласно примера, доступного по ссылке ниже';
-                    messageStatus = 'bad'
-                }
-                
-                res.render('debt-grid', {
-                    title: 'Реестр задолженностей',
-                    user: req.user,
-                    message: message,
-                    messageStatus: messageStatus
-                });
-        
+        if(!req.file) {
+            message.text = 'Ошибка! Файл не был выбран';
+            message.status = 'bad';
+            debtController._renderGrid(req, res, message);
             return;
+        }
 
-            });
-        });
+        var readableStreamInput = fs.createReadStream(req.file.path);
+        exceltojson = debtController._selectExcelParser(req);
+        
+        if(typeof exceltojson == 'undefined') {
+            message.text = 'Ошибка! Вы выбрали файл с неверным расширением. Выберите файл с расширением ".xls" или ".xlsx"';
+            message.status = 'bad';
+            fs.unlinkSync(readableStreamInput.path);
+            debtController._renderGrid(req, res, message);
+            return;
+        }
+
+        exceltojson({ input: req.file.path, output: null,lowerCaseHeaders: true }, function(err, data) {
+
+            debtController._composeDebt(data, function(errCount) {
+                    if (errCount == 0) {
+                        message.text = 'Вы успешно добавили ' + data.length 
+                            +  numeralize.pluralize(data.length, ' запись', ' записи', ' записей');
+                        message.status = 'good';
+                    } else {
+                        var total = data.length - errCount;
+                        message.text = 'Были добавлены не все записи . '  
+                            + 'Вы успешно добавили ' + total
+                            + numeralize.pluralize(total, ' запись', ' записи', ' записей') + ' из ' + data.length
+                            + '. Проверьте правильность заполнения согласно примера, доступного по ссылке ниже';
+                        message.status = 'bad'
+                    }
+                    fs.unlinkSync(readableStreamInput.path);
+                    debtController._renderGrid(req, res, message);
+                })
+
+            }
+
+        );
 
     });
 
 }
+
+debtController._renderGrid = function(req, res, message) {
+    res.render('debt-grid', {
+        title: 'Реестр задолженностей',
+        user: req.user,
+        message: message.text,
+        messageStatus: message.status
+    });
+}
+
+debtController._selectExcelParser = function(req) {
+
+    if (req.file.originalname.match(/\.xls$/)) {
+        return xlstojson;
+    }
+    if (req.file.originalname.match(/\.xlsx$/)) {
+        return xlsxtojson;
+    }
+
+    return; 
+}
+
+debtController._composeDebt = function(data, callback) {
+   
+    var wrongLineCount = 0;
+    Object.keys(data).forEach(current_key => {
+        
+        if (data[current_key]['имя'].trim() == "" || data[current_key]['фамилия'].trim() == "" || data[current_key]['задолженность'].trim() == "") {
+            wrongLineCount ++; // count wrong entries
+        } else {
+            var debt = new Debt({
+                Имя: data[current_key]['имя'],
+                Фамилия: data[current_key]['фамилия'],
+                Задолженность: data[current_key]['задолженность'],
+                _id: new mongoose.Types.ObjectId()
+            });
+
+            debt.save(function (err) {
+                if (err) console.log(err);
+            })
+        }
+    });
+
+    callback(wrongLineCount);
+};
 
 module.exports = debtController;

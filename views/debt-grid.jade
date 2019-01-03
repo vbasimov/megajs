@@ -22,13 +22,13 @@ block content
     .bd-callout.bd-callout-primary.custom-row
       h6.col-6
         | Для удобного добавления записей попробуйте загрузку из файла. 
-        a(href='/template') Скачайте 
+        a(href='/xls/template') Скачайте 
         | пример файла для импорта
       form.col-6(action='debts', method='POST', enctype='multipart/form-data')
           form-group
           input.file.invisible.position-absolute(type='file', name='file')
           .input-group  
-            input.form-control.input-sm(type='text', disabled='', placeholder='Загрузить файл с расширением .csv')
+            input.form-control.input-sm(type='text', disabled='', placeholder='Загрузить файл с расширением .xls или .xlsx')
             |       
             span.input-group-btn
               button.browse.btn.btn-primary.input-sm(type='button')

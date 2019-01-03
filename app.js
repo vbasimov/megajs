@@ -30,7 +30,7 @@ app.use(favicon(__dirname + '/public/images/favicon.png'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  cookie: { maxAge: 60000 },
+  cookie: {maxAge: 86400000}, //24*60*60*1000 Rememeber 'me' for 1 day
   secret: 'fg0vpazo',
   resave: false,
   saveUninitialized: false
@@ -46,8 +46,11 @@ passport.deserializeUser(User.deserializeUser());
 
 var indexRouter = require('./routes/index');
 var debtsRouter = require('./routes/debts');
+var exportRouter = require('./routes/export');
+
 app.use('/', indexRouter);
 app.use('/debts', debtsRouter)
+app.use('/xls', exportRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
