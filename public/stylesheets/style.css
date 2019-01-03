@@ -198,6 +198,10 @@ body {
   height: 25rem;
 }
 
+.carousel-control-next, .carousel-control-prev {
+  width: 9%;
+}
+
 .navbar {
   padding: .5rem .5rem;
 }

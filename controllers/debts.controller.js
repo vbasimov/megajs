@@ -116,26 +116,32 @@ debtController.bulkUpload = function(req, res) {
 
         exceltojson({ input: req.file.path, output: null,lowerCaseHeaders: true }, function(err, data) {
 
-            debtController._composeDebt(data, function(errCount) {
-                    if (errCount == 0) {
-                        message.text = 'Вы успешно добавили ' + data.length 
-                            +  numeralize.pluralize(data.length, ' запись', ' записи', ' записей');
-                        message.status = 'good';
-                    } else {
-                        var total = data.length - errCount;
-                        message.text = 'Были добавлены не все записи . '  
-                            + 'Вы успешно добавили ' + total
-                            + numeralize.pluralize(total, ' запись', ' записи', ' записей') + ' из ' + data.length
-                            + '. Проверьте правильность заполнения согласно примера, доступного по ссылке ниже';
-                        message.status = 'bad'
-                    }
-                    fs.unlinkSync(readableStreamInput.path);
-                    debtController._renderGrid(req, res, message);
-                })
+            if (!data[0].hasOwnProperty('имя') || !data[0].hasOwnProperty('фамилия') || !data[0].hasOwnProperty('задолженность')) {
+                    
+                message.text = 'Ошибка чтения файла. Невозможно прочитать заголовки записей. Проверьте правильность заполнения согласно примера, доступного по ссылке ниже'
+                message.status = 'bad';
+                fs.unlinkSync(readableStreamInput.path);
+                debtController._renderGrid(req, res, message);
 
-            }
+            } else debtController._composeDebt(data, function(errCount) {
+                
+                if (errCount == 0) {
+                    message.text = 'Вы успешно добавили ' + data.length 
+                        +  numeralize.pluralize(data.length, ' запись', ' записи', ' записей');
+                    message.status = 'good';
+                } else {
+                    var total = data.length - errCount;
+                    message.text = 'Были добавлены не все записи . '  
+                        + 'Вы успешно добавили ' + total
+                        + numeralize.pluralize(total, ' запись', ' записи', ' записей') + ' из ' + data.length
+                        + '. Проверьте правильность заполнения согласно примера, доступного по ссылке ниже';
+                    message.status = 'bad'
+                }
+                fs.unlinkSync(readableStreamInput.path);
+                debtController._renderGrid(req, res, message);
+            })
 
-        );
+        });
 
     });
 
