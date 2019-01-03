@@ -11,8 +11,8 @@ var debtController = {};
 var getFilter = function(query) {
 
     var result = {
-        Имя: new RegExp(query.Имя, "i"),
-        Фамилия: new RegExp(query.Фамилия, "i")
+        имя: new RegExp(query.имя, "i"),
+        фамилия: new RegExp(query.фамилия, "i")
     };
 
     return result;
@@ -51,7 +51,7 @@ debtController.debtCreate = function(req, res) {
         {
             имя: req.body.имя,
             фамилия: req.body.фамилия,
-            задолженность: req.ody.задолженность
+            задолженность: req.body.задолженность
         }
     );
 
@@ -177,9 +177,9 @@ debtController._composeDebt = function(data, callback) {
             wrongLineCount ++; // count wrong entries
         } else {
             var debt = new Debt({
-                Имя: data[current_key]['имя'],
-                Фамилия: data[current_key]['фамилия'],
-                Задолженность: data[current_key]['задолженность'],
+                имя: data[current_key]['имя'],
+                фамилия: data[current_key]['фамилия'],
+                задолженность: data[current_key]['задолженность'],
                 _id: new mongoose.Types.ObjectId()
             });
 

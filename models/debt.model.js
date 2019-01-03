@@ -2,17 +2,17 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 let debtSchema = new Schema({
-    Имя: {
+    имя: {
         type: String,
         required: true,
         max:100
     },
-    Фамилия: {
+    фамилия: {
         type: String,
         required: true,
         max:100
     },
-    Задолженность: {
+    задолженность: {
         type: Number,
         required: true
     }

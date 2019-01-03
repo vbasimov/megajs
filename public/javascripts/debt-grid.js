@@ -45,9 +45,9 @@ $(function() {
             }
         },
         fields: [
-            { name: 'Имя', type: 'text', width: 100},
-            { name: 'Фамилия', type: 'text', width: 100},
-            { name: 'Задолженность', type: 'number', align: 'center', filtering: false},
+            { name: 'имя', type: 'text', width: 100},
+            { name: 'фамилия', type: 'text', width: 100},
+            { name: 'задолженность', type: 'number', align: 'center', filtering: false},
             { type: 'control' }
         ]
     });
